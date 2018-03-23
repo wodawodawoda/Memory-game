@@ -1,5 +1,5 @@
 *
-  box-sizing: margin-box
+  box-sizing: border-box
 
 .game-field
   display: flex
@@ -9,21 +9,44 @@
 
 .game-field__card
   display: flex
+  position: relative
   width: 180px
   height: 180px
   background: mediumpurple
   border: 2px solid black
   margin: 10px
+  transform-style: preserve-3d
+  transition: 1s
 
-.game-field__card::before
+.game-field__card--back::before
   margin: auto
   font-size: 2em
 
 .game-field__card--open
   background: yellow
 
-.game-field__card--correct
+.correct
   background: green
+  transform: rotateY(180deg)
 
 .game-field__card--incorrect
   background: red
+.game-field__card--reset
+  background: turquoise
+
+.game-field__card--front, .game-field__card--back
+  margin: 0
+  position: absolute
+  width: 100%
+  height: 100%
+  backface-visibility: hidden
+
+.game-field__card--front
+  background: blue
+
+.game-field__card--back
+  background: yellow
+  transform: rotateY(180deg)
+
+.flip
+  transform: rotateY(180deg)
