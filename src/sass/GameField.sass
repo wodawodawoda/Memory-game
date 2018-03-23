@@ -1,0 +1,29 @@
+*
+  box-sizing: margin-box
+
+.game-field
+  display: flex
+  flex-flow: row wrap
+  width: 800px
+  margin: 0 auto
+
+.game-field__card
+  display: flex
+  width: 180px
+  height: 180px
+  background: mediumpurple
+  border: 2px solid black
+  margin: 10px
+
+.game-field__card::before
+  margin: auto
+  font-size: 2em
+
+.game-field__card--open
+  background: yellow
+
+.game-field__card--correct
+  background: green
+
+.game-field__card--incorrect
+  background: red

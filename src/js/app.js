@@ -1,14 +1,4 @@
-/*
- * Create a list that holds all of your cards
- */
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+import '../sass/GameField.sass'
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -24,14 +14,87 @@ function shuffle(array) {
     return array;
 }
 
+// SHuffle ES6
+// function shuffleArray(array) {
+//     for (let i = array.length - 1; i > 0; i--) {
+//         let j = Math.floor(Math.random() * (i + 1));
+//         [array[i], array[j]] = [array[j], array[i]];
+//     }
+//     return array;
+// }
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+let icons = [
+    'anchor',
+    'leaf',
+    'diamond',
+    'bomb',
+    'bolt',
+    'bicycle',
+    'paper-plane-o',
+    'cube'
+];
+let iconsDouble = [...icons, ...icons];
+
+const div = document.createElement('div');
+
+function createGame(...icons) {
+    shuffle(icons);
+    const gameField = div.cloneNode();
+    gameField.classList = 'game-field';
+    gameField.id = 'game-field';
+    for (let i = 0; i < icons.length; i++) {
+        const card = div.cloneNode();
+        card.classList = `game-field__card fa fa-${icons[i]}`;
+        card.setAttribute('name', icons[i])
+        gameField.appendChild(card);
+    }
+    document.body.appendChild(gameField)
+}
+createGame(...iconsDouble);
+
+const $gameField = document.getElementById('game-field');
+let counter = 0;
+let divStorage = {};
+const open = 'game-field__card--open';
+const correct = 'game-field__card--correct';
+const incorrect = 'game-field__card--incorrect';
+
+
+$gameField.addEventListener('click', (e) => {
+    counter++;
+    // if(counter % 2 !== 0 && counter > 2) {divStorage = {}} else {divStorage = e.target};
+    if(counter % 2 !== 0) {divStorage = e.target}
+    else {
+        if(e.target.attributes.name.value === divStorage.attributes.name.value) {
+            e.target.classList.add(correct);
+            divStorage.classList.add(correct);
+        }
+        divStorage = {}
+    }
+    console.log(divStorage)
+
+});
+
+// $gameField.addEventListener('click', (e) => {
+//     console.log(divStorage)
+//     if(e.target.id === 'game-field' || e.target === divStorage) return;
+//     console.log('click')
+//     counter++;
+//     e.target.classList.add(open);
+//     if(e.target.attributes.name.value === divStorage.attributes.name.value) {
+//         e.target.classList.add(correct);
+//         divStorage.classList.add(correct);
+//     }
+//     divStorage = e.target
+// });
+
+// e.target.classList.add(reset);
+// if(counter % 2 === 0 && name === nameStorage) {
+//     e.target.classList.add(correct);
+//     divStorage.classList.add(correct);
+//     divStorage = ''
+// } else if (counter % 2 === 0) {
+//     e.target.classList.remove(open);
+//     divStorage.classList.remove(open);
+//     divStorage = ''
+// }
