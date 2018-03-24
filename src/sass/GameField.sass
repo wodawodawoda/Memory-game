@@ -1,68 +1,87 @@
-*
+// GLOBAL
+html
   box-sizing: border-box
 
+*,
+*::before,
+*::after
+  box-sizing: inherit
+
+
+// GAME FIELD
 .game-field
   display: flex
   flex-flow: row wrap
-  width: 800px
+  max-width: 800px
   margin: 0 auto
+  background: linear-gradient(-45deg, #ff5ee4, #4b4dff)
+  justify-content: space-around
+  //padding-bottom: 100%
 
 .game-field__card
   display: flex
   position: relative
   width: 180px
   height: 180px
-  background: mediumpurple
-  border: 2px solid black
+  //padding-bottom: 25%
+  background: darkslategrey
   margin: 10px
   transform-style: preserve-3d
-  transition: 0.8s
-  //transition-delay: 1s
+  transition: 0.5s
+  backface-visibility: hidden
 
-.game-field__card--back::before
-  margin: auto
-  font-size: 2em
-
-.game-field__card--open
-  background: yellow
-
-.uno::before
-  margin: auto
+.game-field__card::before
   display: flex
   align-items: center
   justify-content: center
   width: 100%
   height: 100%
-  background: green
+  background: gold
   font-size: 3em
   transform: rotateY(180deg)
   backface-visibility: hidden
+  box-shadow: 0 0 20px gold
+  transition: 0.5s
 
-.uno
-  backface-visibility: hidden
-
-.correct
-  background: green
-  transform: rotateY(180deg)
-
-.game-field__card--incorrect
-  background: red
-.game-field__card--reset
-  background: turquoise
-
-.game-field__card--front, .game-field__card--back
-  margin: 0
-  position: absolute
-  width: 100%
-  height: 100%
-  backface-visibility: hidden
-
-.game-field__card--front
-  background: blue
-
-.game-field__card--back
-  background: yellow
-  transform: rotateY(180deg)
-
+// BEHAVIOR styles
 .flip
   transform: rotateY(180deg)
+
+.shadow--match::before
+  box-shadow: 0 0 20px green
+  background: green
+
+.shadow--wrong::before
+  box-shadow: 0 0 20px red
+  background: red
+
+.hide, .hide::before
+  transition: 1s
+  opacity: 0
+  z-index: -1
+
+// MODAL
+.modal
+  z-index: 1
+  position: absolute
+  overflow: hidden
+  width: 100%
+  height: 100%
+  background: white
+  top: 0
+  display: flex
+  flex-flow: column nowrap
+  justify-content: center
+  align-items: center
+  animation: fade 1s
+
+@keyframes fade
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@media(max-width: 768px)
+  .game-field__card
+    max-width: 43%
+

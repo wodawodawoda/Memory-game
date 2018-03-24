@@ -10,18 +10,8 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
-
-// SHuffle ES6
-// function shuffleArray(array) {
-//     for (let i = array.length - 1; i > 0; i--) {
-//         let j = Math.floor(Math.random() * (i + 1));
-//         [array[i], array[j]] = [array[j], array[i]];
-//     }
-//     return array;
-// }
 
 let icons = [
     'anchor',
@@ -35,113 +25,107 @@ let icons = [
 ];
 let iconsDouble = [...icons, ...icons];
 
+// CREATE BOARD
 const div = document.createElement('div');
 const figure = document.createElement('figure');
+const $gameField = document.getElementById('game-field');
 
 function createGame(...icons) {
     shuffle(icons);
-    const gameField = div.cloneNode();
-    gameField.classList = 'game-field';
-    gameField.id = 'game-field';
+    const container = document.createDocumentFragment();
+    // const gameField = div.cloneNode();
+    // gameField.classList = 'game-field';
+    // gameField.id = 'game-field';
     for (let i = 0; i < icons.length; i++) {
         const card = div.cloneNode();
-        const front = figure.cloneNode();
-        const back = figure.cloneNode();
-        card.appendChild(front);
-        card.appendChild(back);
-        card.classList = `game-field__card`;
-        front.classList = `game-field__card--front`;
-        back.classList = `game-field__card--back fa fa-${icons[i]}`;
+        card.classList = `game-field__card fa fa-${icons[i]}`;
         card.setAttribute('name', icons[i])
-        gameField.appendChild(card);
+        container.appendChild(card);
     }
-    document.body.appendChild(gameField)
+    $gameField.appendChild(container);
+    $gameField.addEventListener('click', getValues);
 }
 createGame(...iconsDouble);
 
-const $gameField = document.getElementById('game-field');
+
+// GAMEPLAY
 let counter = 0;
+let matchCounter = 0;
 let last;
-const open = 'game-field__card--open';
-const correct = 'game-field__card--correct';
-const incorrect = 'game-field__card--incorrect';
-const reset = 'game-field__card--reset'
+const $movesCounter = document.getElementById('movesCounter');
+const $stars = document.getElementsByClassName('star');
 
-$gameField.addEventListener('click', getValues);
-
-
-// WORKING DO NOT DELETE :::
 function getValues(e) {
-    if(last === e.target.parentNode) {return}
+    if(e.target.id === 'game-field') {return}
+    if(counter % 2 !== 0 && last === e.target) {return}
     counter++;
-    e.target.parentNode.classList.add('flip');
-    console.log(counter)
+    $movesCounter.innerText = Math.floor(counter / 2) + ' Moves';
+    if(counter === 6 || counter === 12 || counter === 20) {
+        $stars[$stars.length - 1].classList.add('hide');
+    }
+    e.target.classList.remove('shadow--wrong');
+    e.target.classList.add('flip');
     if(last && counter % 2 === 0) {
         console.log('notempty');
-        if(last.attributes.name.value === e.target.parentNode.attributes.name.value){
-            console.log('match')
-            e.target.nextElementSibling.classList.remove('game-field__card--back');
-            e.target.nextElementSibling.classList.remove('game-field__card--back');
-            e.target.nextElementSibling.classList.add('correct');
-        } else {
-            console.log('not match');
-            setTimeout(() => {
-                e.target.parentNode.classList.remove('flip');
-                console.log(last);
-                last.classList.remove('flip');
-            }, 800)
-        }
+        compare(last, e);
     } else {
         console.log('empty')
-        last = e.target.parentNode
+        last = e.target
     }
-    // setTimeout(() => {last = e.target.parentNode}, 800 ); //FIX FIX FIX
-
 }
 
-// $gameField.addEventListener('click', (e) => {
-//     if(divStorage === e.target) {return}
-//     counter++;
-//         // divStorage.classList.remove(reset);
-//         e.target.classList.remove(reset);
-//     console.log(divStorage);
-//     if(counter % 2 !== 0) {
-//         e.target.classList.add(open);
-//         divStorage = e.target
-//     } else {
-//         if(e.target.attributes.name.value === divStorage.attributes.name.value) {
-//             e.target.classList.add(correct);
-//             divStorage.classList.add(correct);
-//         } else {
-//             divStorage.classList.add(reset);
-//             e.target.classList.add(reset);
-//         }
-//         e.target.classList.remove(open);
-//         divStorage = undefined
-//     }
-// });
-//SEPARATE FUNCTION TO COMPARE TWO COMPARE TWO VALUES
+function compare(last, actual) {
+    if (last.attributes.name.value === actual.target.attributes.name.value) {
+        matchCounter++;
+        console.log('match');
+        actual.target.classList.add('shadow--match');
+        last.classList.add('shadow--match');
+        if(matchCounter === icons.length) {endGame()}
+    } else {
+        console.log('not match');
+        actual.target.classList.add('shadow--wrong');
+        last.classList.add('shadow--wrong');
+        setTimeout(() => {
+            actual.target.classList.remove('flip');
+            last.classList.remove('flip');
+        }, 500)
+    }
+}
 
-// $gameField.addEventListener('click', (e) => {
-//     console.log(divStorage)
-//     if(e.target.id === 'game-field' || e.target === divStorage) return;
-//     console.log('click')
-//     counter++;
-//     e.target.classList.add(open);
-//     if(e.target.attributes.name.value === divStorage.attributes.name.value) {
-//         e.target.classList.add(correct);
-//         divStorage.classList.add(correct);
-//     }
-//     divStorage = e.target
-// });
+// END GAME
+function endGame() {
+    console.log('end')
+    const modal = document.createElement('div');
+    modal.classList = 'modal';
+    const header = document.createElement('h1');
+    header.innerText = 'YOU WON';
+    const btn = document.createElement('button');
+    btn.innerText = 'NEW GAME';
+    btn.onclick = newGame;
+    const text = document.createElement('p');
+    text.innerText = 'Great work!';
+    modal.appendChild(header);
+    modal.appendChild(btn);
+    modal.appendChild(text);
+    function newGame() {
+        restart();
+        modal.classList.add('hide');
+    }
+    document.body.appendChild(modal)
+}
 
-// e.target.classList.add(reset);
-// if(counter % 2 === 0 && name === nameStorage) {
-//     e.target.classList.add(correct);
-//     divStorage.classList.add(correct);
-//     divStorage = ''
-// } else if (counter % 2 === 0) {
-//     e.target.classList.remove(open);
-//     divStorage.classList.remove(open);
-//     divStorage = ''
-// }
+
+// RESTERT
+const $restart = document.getElementById('restart');
+$restart.addEventListener('click', restart)
+function restart() {
+    const $gameField = document.getElementById('game-field');
+    counter = 0;
+    matchCounter = 0;
+    last = undefined; // I had to use undefined to clear this variable to initial state
+    const starsArray = [...$stars];
+    starsArray.forEach(starsReset);
+    function starsReset(item) {item.classList.remove('hide')};
+    $gameField.remove();
+    createGame(...iconsDouble);
+}
