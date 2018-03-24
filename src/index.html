@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
-    <link rel="stylesheet" href="../css/app.css">
 </head>
 <body>
 
@@ -17,15 +16,16 @@
         </header>
 
         <section class="score-panel">
-        	<ul class="stars">
-        		<li><i class="star fa fa-star"></i></li>
-        		<li><i class="star fa fa-star"></i></li>
-        		<li><i class="star fa fa-star"></i></li>
-        	</ul>
 
-        	<span id="movesCounter" class="moves">0 Moves</span>
+            <div class="score-panel__stars">
+                <i class="score-panel__star fa fa-star"></i>
+                <i class="score-panel__star fa fa-star"></i>
+                <i class="score-panel__star fa fa-star"></i>
+            </div>
 
-            <div id="restart" class="restart">
+            <span id="movesCounter" class="moves">0 Moves</span>
+
+            <div id="restart" class="score-panel__restart">
         		<i class="fa fa-repeat"></i>
         	</div>
 

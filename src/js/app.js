@@ -33,9 +33,6 @@ const $gameField = document.getElementById('game-field');
 function createGame(...icons) {
     shuffle(icons);
     const container = document.createDocumentFragment();
-    // const gameField = div.cloneNode();
-    // gameField.classList = 'game-field';
-    // gameField.id = 'game-field';
     for (let i = 0; i < icons.length; i++) {
         const card = div.cloneNode();
         card.classList = `game-field__card fa fa-${icons[i]}`;
@@ -53,7 +50,7 @@ let counter = 0;
 let matchCounter = 0;
 let last;
 const $movesCounter = document.getElementById('movesCounter');
-const $stars = document.getElementsByClassName('star');
+const $stars = document.getElementsByClassName('score-panel__star');
 
 function getValues(e) {
     if(e.target.id === 'game-field') {return}
@@ -66,10 +63,8 @@ function getValues(e) {
     e.target.classList.remove('shadow--wrong');
     e.target.classList.add('flip');
     if(last && counter % 2 === 0) {
-        console.log('notempty');
         compare(last, e);
     } else {
-        console.log('empty')
         last = e.target
     }
 }
@@ -110,12 +105,15 @@ function endGame() {
     function newGame() {
         restart();
         modal.classList.add('hide');
+        setTimeout(() => {
+            modal.remove();
+        }, 500)
     }
     document.body.appendChild(modal)
 }
 
 
-// RESTERT
+// RESET
 const $restart = document.getElementById('restart');
 $restart.addEventListener('click', restart)
 function restart() {
@@ -126,6 +124,6 @@ function restart() {
     const starsArray = [...$stars];
     starsArray.forEach(starsReset);
     function starsReset(item) {item.classList.remove('hide')};
-    $gameField.remove();
+    $gameField.innerHTML = "";
     createGame(...iconsDouble);
 }

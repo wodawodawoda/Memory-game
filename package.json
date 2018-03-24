@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "webpack-dev-server -d --open",
+    "start": "webpack-dev-server -d --open --host 192.168.0.106",
     "server": "http-server",
     "dev": "webpack -d",
     "build": "webpack -p",

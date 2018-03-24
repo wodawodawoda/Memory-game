@@ -7,30 +7,60 @@ html
 *::after
   box-sizing: inherit
 
+body
+  background: url(https://blog.spoongraphics.co.uk/wp-content/uploads/2012/textures/18.jpg)
+.container
+  display: flex
+  justify-content: center
+  align-items: center
+  flex-direction: column
+  max-width: 800px
+  margin: 0 auto
+
+h1
+  font-family: 'Open Sans', sans-serif
+  font-weight: 300
+
+// STATS
+.score-panel
+  background: darkblue
+  color: white
+  width: 100%
+  padding: 20px
+  border-radius: 20px 20px 0 0
+
+.score-panel__stars
+  display: inline-block
+  margin-right: 5px
+
+.score-panel__restart
+  float: right
+  cursor: pointer
 
 // GAME FIELD
 .game-field
   display: flex
   flex-flow: row wrap
-  max-width: 800px
+  width: 100%
+  padding: 3%
   margin: 0 auto
   background: linear-gradient(-45deg, #ff5ee4, #4b4dff)
   justify-content: space-around
-  //padding-bottom: 100%
+  align-content: space-around
 
 .game-field__card
   display: flex
   position: relative
-  width: 180px
-  height: 180px
-  //padding-bottom: 25%
+  width: 23%
+  padding-bottom: 23%
+  margin: 1%
   background: darkslategrey
-  margin: 10px
   transform-style: preserve-3d
   transition: 0.5s
   backface-visibility: hidden
 
 .game-field__card::before
+  position: absolute
   display: flex
   align-items: center
   justify-content: center
@@ -69,6 +99,7 @@ html
   height: 100%
   background: white
   top: 0
+  left: 0
   display: flex
   flex-flow: column nowrap
   justify-content: center
@@ -80,8 +111,3 @@ html
     opacity: 0
   to
     opacity: 1
-
-@media(max-width: 768px)
-  .game-field__card
-    max-width: 43%
-
