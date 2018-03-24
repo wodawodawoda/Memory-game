@@ -69,13 +69,15 @@ const reset = 'game-field__card--reset'
 
 $gameField.addEventListener('click', getValues);
 
+
+// WORKING DO NOT DELETE :::
 function getValues(e) {
-    // if(last === e.target.parentNode) {return}
+    if(last === e.target.parentNode) {return}
     counter++;
-    // console.log(e)
     e.target.parentNode.classList.add('flip');
+    console.log(counter)
     if(last && counter % 2 === 0) {
-        console.log('notempty')
+        console.log('notempty');
         if(last.attributes.name.value === e.target.parentNode.attributes.name.value){
             console.log('match')
             e.target.nextElementSibling.classList.remove('game-field__card--back');
@@ -83,18 +85,17 @@ function getValues(e) {
             e.target.nextElementSibling.classList.add('correct');
         } else {
             console.log('not match');
-            console.log(last)
             setTimeout(() => {
                 e.target.parentNode.classList.remove('flip');
-                console.log(last)
+                console.log(last);
                 last.classList.remove('flip');
             }, 800)
-
         }
     } else {
         console.log('empty')
+        last = e.target.parentNode
     }
-    setTimeout(() => {last = e.target.parentNode}, 800 );
+    // setTimeout(() => {last = e.target.parentNode}, 800 ); //FIX FIX FIX
 
 }
 
