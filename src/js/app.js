@@ -36,7 +36,7 @@ function createGame(...icons) {
     for (let i = 0; i < icons.length; i++) {
         const card = div.cloneNode();
         card.classList = `game-field__card fa fa-${icons[i]}`;
-        card.setAttribute('name', icons[i])
+        card.setAttribute('name', icons[i]);
         container.appendChild(card);
     }
     $gameField.appendChild(container);
@@ -51,14 +51,18 @@ let matchCounter = 0;
 let last;
 const $movesCounter = document.getElementById('movesCounter');
 const $stars = document.getElementsByClassName('score-panel__star');
-
 function getValues(e) {
     if(e.target.id === 'game-field') {return}
     if(counter % 2 !== 0 && last === e.target) {return}
     counter++;
-    $movesCounter.innerText = Math.floor(counter / 2) + ' Moves';
-    if(counter === 6 || counter === 12 || counter === 20) {
+    if(counter === 1) {timer = setInterval(int, 1000)}
+    $movesCounter.innerText = Math.floor(counter / 2);
+    if(counter === 6) {
         $stars[$stars.length - 1].classList.add('hide');
+    } else if(counter === 12) {
+        $stars[$stars.length - 2].classList.add('hide');
+    } else if(counter === 20) {
+        $stars[$stars.length - 3].classList.add('hide');
     }
     e.target.classList.remove('shadow--wrong');
     e.target.classList.add('flip');
@@ -68,8 +72,8 @@ function getValues(e) {
         last = e.target
     }
 }
-
 function compare(last, actual) {
+
     if (last.attributes.name.value === actual.target.attributes.name.value) {
         matchCounter++;
         console.log('match');
@@ -86,22 +90,34 @@ function compare(last, actual) {
         }, 500)
     }
 }
+// TIMER
+const $timer = document.getElementById('timer');
+let timer;
+let time = 0;
+const int = () => {
+    time++;
+    $timer.innerText = time;
+}
 
 // END GAME
 function endGame() {
-    console.log('end')
+    console.log('end');
     const modal = document.createElement('div');
     modal.classList = 'modal';
     const header = document.createElement('h1');
     header.innerText = 'YOU WON';
     const btn = document.createElement('button');
+    btn.classList = 'modal__btn';
     btn.innerText = 'NEW GAME';
     btn.onclick = newGame;
     const text = document.createElement('p');
     text.innerText = 'Great work!';
+    const endTime = document.createElement('p');
+    endTime.innerText = `Your time: ${time}`;
     modal.appendChild(header);
     modal.appendChild(btn);
     modal.appendChild(text);
+    modal.appendChild(endTime);
     function newGame() {
         restart();
         modal.classList.add('hide');
@@ -111,19 +127,21 @@ function endGame() {
     }
     document.body.appendChild(modal)
 }
-
-
 // RESET
 const $restart = document.getElementById('restart');
-$restart.addEventListener('click', restart)
+$restart.addEventListener('click', restart);
 function restart() {
+    clearInterval(timer);
     const $gameField = document.getElementById('game-field');
     counter = 0;
     matchCounter = 0;
+    time = 0;
+    $movesCounter.innerText = '0';
+    $timer.innerText = '0';
     last = undefined; // I had to use undefined to clear this variable to initial state
     const starsArray = [...$stars];
     starsArray.forEach(starsReset);
-    function starsReset(item) {item.classList.remove('hide')};
+    function starsReset(item) {item.classList.remove('hide')}
     $gameField.innerHTML = "";
     createGame(...iconsDouble);
 }
