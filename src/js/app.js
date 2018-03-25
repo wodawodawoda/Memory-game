@@ -1,4 +1,4 @@
-import '../sass/GameField.sass'
+import '../sass/app.sass'
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
