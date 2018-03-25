@@ -2,7 +2,7 @@ import '../sass/GameField.sass'
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -28,6 +28,7 @@ let iconsDouble = [...icons, ...icons];
 // CREATE BOARD
 const div = document.createElement('div');
 const figure = document.createElement('figure');
+
 const $gameField = document.getElementById('game-field');
 
 function createGame(...icons) {
@@ -48,15 +49,16 @@ createGame(...iconsDouble);
 // GAMEPLAY
 let counter = 0;
 let matchCounter = 0;
-let last;
+let last; // Last card choice
+
 const $movesCounter = document.getElementById('movesCounter');
 const $stars = document.getElementsByClassName('score-panel__star');
 function getValues(e) {
-    if(e.target.id === 'game-field') {return}
-    if(counter % 2 !== 0 && last === e.target) {return}
+    if(e.target.id === 'game-field') {return} // Prevent click on #game-field
+    if(counter % 2 !== 0 && last === e.target) {return} // Prevent second click on the same card
     counter++;
-    if(counter === 1) {timer = setInterval(int, 1000)}
-    $movesCounter.innerText = Math.floor(counter / 2);
+    if(counter === 1) {timer = setInterval(int, 1000)} //Run timer after first click on card
+    $movesCounter.innerText = Math.floor(counter / 2); // Display only 'pair' flip count
     if(counter === 6) {
         $stars[$stars.length - 1].classList.add('hide');
     } else if(counter === 12) {
@@ -72,24 +74,26 @@ function getValues(e) {
         last = e.target
     }
 }
-function compare(last, actual) {
 
+function compare(last, actual) {
     if (last.attributes.name.value === actual.target.attributes.name.value) {
+        // Match
         matchCounter++;
-        console.log('match');
         actual.target.classList.add('shadow--match');
         last.classList.add('shadow--match');
         if(matchCounter === icons.length) {endGame()}
     } else {
-        console.log('not match');
+        // Not match
         actual.target.classList.add('shadow--wrong');
         last.classList.add('shadow--wrong');
+        // Set timeout to enable second card to flip
         setTimeout(() => {
             actual.target.classList.remove('flip');
             last.classList.remove('flip');
         }, 500)
     }
 }
+
 // TIMER
 const $timer = document.getElementById('timer');
 let timer;
@@ -97,22 +101,22 @@ let time = 0;
 const int = () => {
     time++;
     $timer.innerText = time;
-}
+};
 
 // END GAME
 function endGame() {
-    console.log('end');
+    // Create modal
     const modal = document.createElement('div');
-    modal.classList = 'modal';
     const header = document.createElement('h1');
-    header.innerText = 'YOU WON';
     const btn = document.createElement('button');
+    const text = document.createElement('p');
+    const endTime = document.createElement('p');
+    modal.classList = 'modal';
+    header.innerText = 'YOU WON';
     btn.classList = 'modal__btn';
     btn.innerText = 'NEW GAME';
     btn.onclick = newGame;
-    const text = document.createElement('p');
     text.innerText = 'Great work!';
-    const endTime = document.createElement('p');
     endTime.innerText = `Your time: ${time}`;
     modal.appendChild(header);
     modal.appendChild(btn);
@@ -121,25 +125,28 @@ function endGame() {
     function newGame() {
         restart();
         modal.classList.add('hide');
+        // Set timeout for smooth fade out animation described in 'hide' CSS class
         setTimeout(() => {
             modal.remove();
         }, 500)
     }
     document.body.appendChild(modal)
 }
+
 // RESET
 const $restart = document.getElementById('restart');
 $restart.addEventListener('click', restart);
+
 function restart() {
     clearInterval(timer);
     const $gameField = document.getElementById('game-field');
     counter = 0;
     matchCounter = 0;
     time = 0;
+    last = undefined; // I had to use undefined to clear this variable to initial state
     $movesCounter.innerText = '0';
     $timer.innerText = '0';
-    last = undefined; // I had to use undefined to clear this variable to initial state
-    const starsArray = [...$stars];
+    const starsArray = [...$stars]; // Change DOM node list into Array for easier loop
     starsArray.forEach(starsReset);
     function starsReset(item) {item.classList.remove('hide')}
     $gameField.innerHTML = "";
