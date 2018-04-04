@@ -1,6 +1,9 @@
-import '../sass/app.sass'
+import '../sass/app.sass';
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+// @description Shuffle items in array
+// @param {array} array - array to shuffle
+// @return randomized array
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
     while (currentIndex !== 0) {
@@ -28,9 +31,10 @@ let iconsDouble = [...icons, ...icons];
 // CREATE BOARD
 const div = document.createElement('div');
 const figure = document.createElement('figure');
-
 const $gameField = document.getElementById('game-field');
 
+// @description Append new cards in game field
+// @param {array} icons - Array of all cards icons in game
 function createGame(...icons) {
     shuffle(icons);
     const container = document.createDocumentFragment();
@@ -53,8 +57,10 @@ let last; // Last card choice
 
 const $movesCounter = document.getElementById('movesCounter');
 const $stars = document.getElementsByClassName('score-panel__star');
+
+// @description Track value of clicked card
+// @param {object} e - Click event response
 function getValues(e) {
-    console.log(counter)
     if(e.target.id === 'game-field') {return} // Prevent click on #game-field
     if(counter % 2 !== 0 && last === e.target) {return} // Prevent second click on the same card
     counter++;
@@ -73,9 +79,21 @@ function getValues(e) {
         last = e.target
     }
 }
+// TIMER
+const $timer = document.getElementById('timer');
+let timer;
+let time = 0;
 
+// @description Timer interval function
+const int = () => {
+  time++;
+  $timer.innerText = time;
+};
+
+// @description Compare two cards
+// @param {HTMLnode} last chosen card
+// @param {object} e - Click event response
 function compare(last, actual) {
-  console.log($stars[0])
     if (last.attributes.name.value === actual.target.attributes.name.value) {
         // Match
         matchCounter++;
@@ -94,16 +112,9 @@ function compare(last, actual) {
     }
 }
 
-// TIMER
-const $timer = document.getElementById('timer');
-let timer;
-let time = 0;
-const int = () => {
-    time++;
-    $timer.innerText = time;
-};
-
 // END GAME
+
+// @description Display modal at the end of the game
 function endGame() {
     const modal = document.createElement('div');
     const header = document.createElement('h1');
@@ -111,7 +122,6 @@ function endGame() {
     const text = document.createElement('p');
     const endTime = document.createElement('p');
     const star = document.getElementsByClassName('score-panel__stars')[0].cloneNode();
-    console.log(star)
     modal.classList = 'modal';
     header.innerText = 'YOU WON';
     btn.classList = 'modal__btn';
@@ -142,6 +152,7 @@ function endGame() {
 const $restart = document.getElementById('restart');
 $restart.addEventListener('click', restart);
 
+// @description Reset timer, variables and create new cards in game field
 function restart() {
     clearInterval(timer);
     const $gameField = document.getElementById('game-field');
