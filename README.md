@@ -18,7 +18,7 @@ Numbers of your moves are diplayed on top of the game board, next to three stars
 Less moves you make, you keep more stars at the end of the game.
 
 ## Dependencies
-All you need to play is browser with enabled JavaScript.
+To run dev or production version you need browser with enabled JavaScript.
 
 ## Build setup
 Project was developed with:
