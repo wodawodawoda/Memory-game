@@ -20,13 +20,16 @@ Less moves you make, you keep more stars at the end of the game.
 ## Dependencies
 To run dev or production version you need browser with enabled JavaScript.
 
+## Demo
+https://wodawodawoda.github.io/Memory-game/
+
 ## Build setup
-Project was developed with:
-*Webpack 4.0
-*Babel
-*SASS
-*ES6
-*HTML5
+Project was developed using:
+* Webpack 4.0
+* Babel
+* SASS
+* ES6
+* HTML5
 ```bash
 # To install dev-dependencies, just go to the root folder and run
 npm i
