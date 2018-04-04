@@ -1,1 +1,120 @@
-html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{background:url(https://blog.spoongraphics.co.uk/wp-content/uploads/2012/textures/18.jpg)}.container{display:flex;justify-content:center;align-items:center;flex-direction:column;max-width:800px;margin:0 auto}h1{font-family:Open Sans,sans-serif;font-weight:300}.score-panel{background:#00008b;color:#fff;width:100%;padding:20px;border-radius:20px 20px 0 0}.score-panel__stars{display:inline-block;margin-right:5px}.score-panel__restart{float:right;cursor:pointer}.timer{float:right;margin-right:20px}.game-field{display:flex;flex-flow:row wrap;width:100%;padding:3%;margin:0 auto;background:linear-gradient(-45deg,#ff5ee4,#4b4dff);justify-content:space-around;align-content:space-around}.game-field__card{position:relative;width:23%;padding-bottom:23%;margin:1%;background:#2f4f4f;transform-style:preserve-3d}.game-field__card,.game-field__card:before{display:flex;transition:.5s;backface-visibility:hidden}.game-field__card:before{position:absolute;align-items:center;justify-content:center;width:100%;height:100%;background:gold;font-size:3em;box-shadow:0 0 20px gold}.flip,.game-field__card:before{transform:rotateY(180deg)}.shadow--match:before{box-shadow:0 0 20px green;background:green}.shadow--wrong:before{box-shadow:0 0 20px red;background:red}.hide,.hide:before{transition:1s;opacity:0;z-index:-1}.modal{z-index:1;position:absolute;overflow:hidden;width:100%;height:100%;background:#fff;font-size:2em;top:0;left:0;display:flex;flex-flow:column nowrap;justify-content:center;align-items:center;animation:fade 1s}.modal__btn{font-size:1.2em;background:green;padding:10px 30px;border-radius:10px}@keyframes fade{0%{opacity:0}to{opacity:1}}
+html {
+  box-sizing: border-box; }
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit; }
+
+body {
+  background: url(https://blog.spoongraphics.co.uk/wp-content/uploads/2012/textures/18.jpg); }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto; }
+
+h1 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300; }
+
+.score-panel {
+  background: darkblue;
+  color: white;
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px 20px 0 0; }
+
+.score-panel__stars {
+  display: inline-block;
+  margin-right: 5px; }
+
+.score-panel__restart {
+  float: right;
+  cursor: pointer; }
+
+.timer {
+  float: right;
+  margin-right: 20px; }
+
+.game-field {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  padding: 3%;
+  margin: 0 auto;
+  background: linear-gradient(-45deg, #ff5ee4, #4b4dff);
+  justify-content: space-around;
+  align-content: space-around; }
+
+.game-field__card {
+  display: flex;
+  position: relative;
+  width: 23%;
+  padding-bottom: 23%;
+  margin: 1%;
+  background: darkslategrey;
+  transform-style: preserve-3d;
+  transition: 0.5s;
+  backface-visibility: hidden; }
+
+.game-field__card::before {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: gold;
+  font-size: 3em;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  box-shadow: 0 0 20px gold;
+  transition: 0.5s; }
+
+.flip {
+  transform: rotateY(180deg); }
+
+.shadow--match::before {
+  box-shadow: 0 0 20px green;
+  background: green; }
+
+.shadow--wrong::before {
+  box-shadow: 0 0 20px red;
+  background: red; }
+
+.hide, .hide::before {
+  transition: 1s;
+  opacity: 0;
+  z-index: -1; }
+
+.modal {
+  z-index: 1;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background: white;
+  font-size: 2em;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  animation: fade 1s; }
+
+.modal__btn {
+  font-size: 1.2em;
+  background: green;
+  padding: 10px 30px;
+  border-radius: 10px; }
+
+@keyframes fade {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }

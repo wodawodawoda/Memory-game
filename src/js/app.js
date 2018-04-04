@@ -54,17 +54,16 @@ let last; // Last card choice
 const $movesCounter = document.getElementById('movesCounter');
 const $stars = document.getElementsByClassName('score-panel__star');
 function getValues(e) {
+    console.log(counter)
     if(e.target.id === 'game-field') {return} // Prevent click on #game-field
     if(counter % 2 !== 0 && last === e.target) {return} // Prevent second click on the same card
     counter++;
     if(counter === 1) {timer = setInterval(int, 1000)} //Run timer after first click on card
     $movesCounter.innerText = Math.floor(counter / 2); // Display only 'pair' flip count
-    if(counter === 6) {
+    if(counter === 20) {
         $stars[$stars.length - 1].classList.add('hide');
-    } else if(counter === 12) {
+    } else if(counter === 40) {
         $stars[$stars.length - 2].classList.add('hide');
-    } else if(counter === 20) {
-        $stars[$stars.length - 3].classList.add('hide');
     }
     e.target.classList.remove('shadow--wrong');
     e.target.classList.add('flip');
@@ -76,6 +75,7 @@ function getValues(e) {
 }
 
 function compare(last, actual) {
+  console.log($stars[0])
     if (last.attributes.name.value === actual.target.attributes.name.value) {
         // Match
         matchCounter++;
@@ -105,12 +105,13 @@ const int = () => {
 
 // END GAME
 function endGame() {
-    // Create modal
     const modal = document.createElement('div');
     const header = document.createElement('h1');
     const btn = document.createElement('button');
     const text = document.createElement('p');
     const endTime = document.createElement('p');
+    const star = document.getElementsByClassName('score-panel__stars')[0].cloneNode();
+    console.log(star)
     modal.classList = 'modal';
     header.innerText = 'YOU WON';
     btn.classList = 'modal__btn';
@@ -122,6 +123,10 @@ function endGame() {
     modal.appendChild(btn);
     modal.appendChild(text);
     modal.appendChild(endTime);
+    for (let i = 0; i < $stars.length; i++) {
+      star.appendChild($stars[i].cloneNode());
+    }
+    modal.appendChild(star);
     function newGame() {
         restart();
         modal.classList.add('hide');
